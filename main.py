@@ -123,6 +123,6 @@ async def unlock(ctx, channel : discord.TextChannel=None):
 
 
 keep_alive.keep_alive()
-client.run("ODg2MzQ4MjExNTA4MzU5MjA4.YT0SGQ.8i1q5QEFn-zwZgnYizQAif0Iqfw") #get your bot token and create a key named `TOKEN` to the secrets panel then paste your bot token as the value. 
+client.run(os.environ['token']) #get your bot token and create a key named `TOKEN` to the secrets panel then paste your bot token as the value. 
 #to keep your bot from shutting down use https://uptimerobot.com then create a https:// monitor and put the link to the website that appewars when you run this repl in the monitor and it will keep your bot alive by pinging the flask server
 #enjoy!
