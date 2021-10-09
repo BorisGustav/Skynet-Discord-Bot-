@@ -121,7 +121,7 @@ async def unlock(ctx, channel : discord.TextChannel=None):
     await ctx.send("Channel doors opening.")
     #simple command so that when you type "!ping" the bot will respond with "pong!"
 
-
+#Test
 keep_alive.keep_alive()
 client.run(os.environ['token']) #get your bot token and create a key named `TOKEN` to the secrets panel then paste your bot token as the value. 
 #to keep your bot from shutting down use https://uptimerobot.com then create a https:// monitor and put the link to the website that appewars when you run this repl in the monitor and it will keep your bot alive by pinging the flask server
