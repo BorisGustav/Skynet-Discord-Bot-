@@ -47,7 +47,7 @@ async def calculate(ctx, num1, num2):
   sum4 = float(num1) / float(num2)
 
 #what operator to use
-  choice = input('Enter an operator, + = addition, - = subtraction, * = multiplication and / = division: ')
+  #choice = input('Enter an operator, + = addition, - = subtraction, * = multiplication and / = division: ')
 #different sums based on the operators
   if choice == '+':
     await ctx.send('The sum of {0} and {1} is {2}'.format(num1, num2, sum))
@@ -76,21 +76,29 @@ async def purge(ctx, message,num = None):
 
     await ctx.send("Terminator deployed.")
     await message.delete()
+
+
 @client.command()
 async def terminate(ctx, member : discord.Member):
     await ctx.send("Target Acquired.")
     await ctx.send(member + " has been terminated.")
     await member.ban
+
+
 @client.command()
 async def kick(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     await ctx.send(member + " has been kicked.")
     await member.kick
+
+
 @client.command()
 async def mute(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     (member + " has been muted.")
     await member.mute(member + " has been muted.")
+
+
 @client.command()
 async def nuke(ctx, channel):
     await ctx.send("Launching all Soviet Nukes...")
@@ -99,6 +107,8 @@ async def nuke(ctx, channel):
       await ctx.send(x)
       time.sleep(1)
     await ctx.channel.delete()
+
+
 @client.command()
 @commands.has_permissions(manage_channels=True)
 async def lock(ctx, channel : discord.TextChannel=None):
@@ -107,10 +117,14 @@ async def lock(ctx, channel : discord.TextChannel=None):
     overwrite.send_messages = False
     await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
     await ctx.send('Channel bunkered down.')
+
+
 @lock.error
 async def lock_error(ctx, error):
     if isinstance(error,commands.CheckFailure):
         await ctx.send('You do not have permission to use this command!') 
+
+
 @client.command()
 @commands.has_permissions(manage_channels=True)
 async def unlock(ctx, channel : discord.TextChannel=None):
@@ -121,7 +135,8 @@ async def unlock(ctx, channel : discord.TextChannel=None):
     await ctx.send("Channel doors opening.")
     #simple command so that when you type "!ping" the bot will respond with "pong!"
 
-#Test
+
+
 keep_alive.keep_alive()
 client.run(os.environ['token']) #get your bot token and create a key named `TOKEN` to the secrets panel then paste your bot token as the value. 
 #to keep your bot from shutting down use https://uptimerobot.com then create a https:// monitor and put the link to the website that appewars when you run this repl in the monitor and it will keep your bot alive by pinging the flask server
