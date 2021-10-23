@@ -37,7 +37,7 @@ async def fate(ctx):
 
 #calculations
 @client.command()
-async def calculate(ctx, num1, num2):
+async def calculate(ctx, num1, num2, choice):
   #Store number variables for the two numbers
 
 #the sum of the two numbers variable
@@ -63,22 +63,28 @@ async def calculate(ctx, num1, num2):
 
 #termination commands
 @client.command()
-async def purge(ctx, message,num = None):
+async def purge(ctx, num=None):
     if not num:
       for x in range(num):
-        message.delete()
+        try:
+          ctx.message.delete()
+        except:
+          await ctx.send("No targets to terminate.")
+          
+
     else:
       try:
-        message.delete()
+        ctx.message.delete()
       except:
         await ctx.send("No targets to terminate.")
         
 
     await ctx.send("Terminator deployed.")
-    await message.delete()
+    await ctx.message.delete()
 
 
 @client.command()
+@commands.has_any_role('Praetor','Consul','Dictator')
 async def terminate(ctx, member : discord.Member):
     await ctx.send("Target Acquired.")
     await ctx.send(member + " has been terminated.")
@@ -86,6 +92,7 @@ async def terminate(ctx, member : discord.Member):
 
 
 @client.command()
+@commands.has_any_role('Praetor','Consul','Dictator')
 async def kick(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     await ctx.send(member + " has been kicked.")
@@ -93,6 +100,7 @@ async def kick(ctx, member : discord.Member):
 
 
 @client.command()
+@commands.has_any_role('Praetor','Consul','Dictator')
 async def mute(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     (member + " has been muted.")
@@ -100,16 +108,19 @@ async def mute(ctx, member : discord.Member):
 
 
 @client.command()
-async def nuke(ctx, channel):
+@commands.has_any_role('Dictator')
+async def nuke(ctx, channel: discord.TextChannel):
     await ctx.send("Launching all Soviet Nukes...")
-    await ctx.send("Judgement day of " + channel + " has arrived.")
+    await ctx.send("Judgement day of " + channel.name + " has arrived.")
+    await channel.send("Gripping your gun, you run to the safety of the shelters.  You hear the nuclear siren wail in the distance, knowing the fate of your messages is sealed.")
     for x in range(5, 0, -1):
-      await ctx.send(x)
+      await ctx.send(x)      
       time.sleep(1)
-    await ctx.channel.delete()
+    await channel.delete()
 
 
 @client.command()
+@commands.has_any_role('Praetor','Consul','Dictator')
 @commands.has_permissions(manage_channels=True)
 async def lock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
@@ -126,6 +137,7 @@ async def lock_error(ctx, error):
 
 
 @client.command()
+@commands.has_any_role('Praetor','Consul','Dictator')
 @commands.has_permissions(manage_channels=True)
 async def unlock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
