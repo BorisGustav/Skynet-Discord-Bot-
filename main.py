@@ -5,6 +5,12 @@ import os
 import time
 from discord.ext import commands
 #^ basic imports for other features of discord.py and python ^
+intents = discord.Intents.none()
+intents.reactions = True
+intents.members = True
+intents.guilds = True
+
+
 
 client = discord.Client()
 
@@ -63,18 +69,21 @@ async def calculate(ctx, num1, num2, choice):
 
 #termination commands
 @client.command()
-async def purge(ctx, num=None):
-    if not num:
+async def purge(ctx, num):
+    print(num)
+    if num:
+      await ctx.message.delete()
       for x in range(num):
         try:
-          ctx.message.delete()
+          await ctx.message.delete()
         except:
           await ctx.send("No targets to terminate.")
           
 
     else:
       try:
-        ctx.message.delete()
+        await ctx.message.delete()
+        await ctx.message.delete()
       except:
         await ctx.send("No targets to terminate.")
         
