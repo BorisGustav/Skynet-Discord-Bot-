@@ -1,4 +1,4 @@
-
+import random
 import discord
 import keep_alive
 import os
@@ -31,6 +31,23 @@ async def member(ctx,member:discord.Member):
   etest.set_thumbnail(url= member.avatar_url)
   await ctx.send(embed = etest)
 
+#Fun
+lobby = []
+@client.command()
+async def roulette(ctx):
+    def check(msg):
+        return msg.channel == ctx.channel and msg.content.lower() in ["join", "leave"]
+    
+    msg = await client.wait_for("message", check=check)
+    if msg.content.lower() == "join":
+        await ctx.send("Joining Lobby")
+        lobby.append(msg.author)
+    else:
+        await ctx.send("Leaving Lobby.")
+
+    await ctx.send("Roulette is now starting!  Type 'Tjoin' to join the lobby!")
+  
+    
 #Speaking commands
 @client.command()
 async def back(ctx):
@@ -40,43 +57,21 @@ async def finish(ctx):
   await ctx.send("Hasta La Vista, Baby.")
 @client.command()
 async def fate(ctx):
-  await ctx.send("There is not fate but what we make for ourselves.")
-
-#calculations
-@client.command()
-async def calculate(ctx, num1, num2, choice):
-  #Store number variables for the two numbers
-
-#the sum of the two numbers variable
-  sum = float(num1) + float(num2)
-  sum2 = float(num1) - float(num2)
-  sum3 = float(num1) * float(num2)
-  sum4 = float(num1) / float(num2)
-
-#what operator to use
-  #choice = input('Enter an operator, + = addition, - = subtraction, * = multiplication and / = division: ')
-#different sums based on the operators
-  if choice == '+':
-    await ctx.send('The sum of {0} and {1} is {2}'.format(num1, num2, sum))
-
-  if choice == '-':
-    await ctx.send('The sum of {0} and {1} is {2}'.format(num1, num2, sum2))
-
-  if choice == '*':
-    await ctx.send('The sum of {0} and {1} is {2}'.format(num1, num2, sum3))
-
-  if choice == '/':
-    await ctx.send('The sum of {0} and {1} is {2}'.format(num1, num2, sum4))
+  await ctx.send("There is not fate but what we make for ourselves.")t
 
 #termination commands
 @client.command()
+@commands.has_any_role('Commisar','Oligarch','Dictator')
 async def purge(ctx, num=None):
+  try:
     num = int(num)
     await ctx.channel.purge(limit=num) 
 
+  except discord.ext.commands.errors.MissingAnyRole:
+    await ctx.send("No permission")
 
 @client.command()
-@commands.has_any_role('Praetor','Consul','Dictator')
+@commands.has_any_role('Commissar','Oligarch','Dictator')
 async def terminate(ctx, member : discord.Member):
     await ctx.send("Target Acquired.")
     await ctx.send(member + " has been terminated.")
@@ -84,7 +79,7 @@ async def terminate(ctx, member : discord.Member):
 
 
 @client.command()
-@commands.has_any_role('Praetor','Consul','Dictator')
+@commands.has_any_role('Commissar','Oligarch','Dictator')
 async def kick(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     await ctx.send(member + " has been kicked.")
@@ -92,7 +87,7 @@ async def kick(ctx, member : discord.Member):
 
 
 @client.command()
-@commands.has_any_role('Praetor','Consul','Dictator')
+@commands.has_any_role('Commissar','Oligarch','Dictator')
 async def mute(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     (member + " has been muted.")
@@ -112,8 +107,7 @@ async def nuke(ctx, channel: discord.TextChannel):
 
 
 @client.command()
-@commands.has_any_role('Praetor','Consul','Dictator')
-@commands.has_permissions(manage_channels=True)
+@commands.has_any_role('Commissar','Oligarch','Dictator')
 async def lock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
     overwrite = channel.overwrites_for(ctx.guild.default_role)
@@ -129,8 +123,7 @@ async def lock_error(ctx, error):
 
 
 @client.command()
-@commands.has_any_role('Praetor','Consul','Dictator')
-@commands.has_permissions(manage_channels=True)
+@commands.has_any_role('Commissar','Oligarch','Dictator')
 async def unlock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
     overwrite = channel.overwrites_for(ctx.guild.default_role)
