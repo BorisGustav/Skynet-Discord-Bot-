@@ -32,9 +32,10 @@ async def member(ctx,member:discord.Member):
   await ctx.send(embed = etest)
 
 #Fun
-lobby = []
+lobby = [] 
 @client.command()
 async def roulette(ctx):
+    await ctx.send("Roulette is now starting, type Tjoin to enter the lobby!")
     def check(msg):
         return msg.channel == ctx.channel and msg.content.lower() in ["join", "leave"]
     
@@ -57,11 +58,11 @@ async def finish(ctx):
   await ctx.send("Hasta La Vista, Baby.")
 @client.command()
 async def fate(ctx):
-  await ctx.send("There is not fate but what we make for ourselves.")t
+  await ctx.send("There is not fate but what we make for ourselves.")
 
 #termination commands
 @client.command()
-@commands.has_any_role('Commisar','Oligarch','Dictator')
+@commands.has_any_role('Commissar','Premier','mod')
 async def purge(ctx, num=None):
   try:
     num = int(num)
@@ -71,31 +72,49 @@ async def purge(ctx, num=None):
     await ctx.send("No permission")
 
 @client.command()
-@commands.has_any_role('Commissar','Oligarch','Dictator')
+@commands.has_any_role('Commissar','Premier','Judge','Justice')
 async def terminate(ctx, member : discord.Member):
     await ctx.send("Target Acquired.")
-    await ctx.send(member + " has been terminated.")
-    await member.ban
+    await ctx.send(member.name + " has been terminated.")
+    await member.ban()
 
 
 @client.command()
-@commands.has_any_role('Commissar','Oligarch','Dictator')
+@commands.has_any_role('Commissar','Premier')
 async def kick(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     await ctx.send(member + " has been kicked.")
     await member.kick
 
+@client.command()
+@commands.has_any_role('Commissar','Premier')
+async def gulag(ctx, member : discord.Member):
+    await ctx.send("Terminator deployed.")
+    await ctx.send(member + " has been sent to the gulags.")
+    roles = discord.utils.get(member.guild.roles, name = 'Gulag')
+
+    #Here
+    await member.add_role(roles)
+    
 
 @client.command()
-@commands.has_any_role('Commissar','Oligarch','Dictator')
+@commands.has_any_role('Commissar','Premier')
 async def mute(ctx, member : discord.Member):
     await ctx.send("Terminator deployed.")
     (member + " has been muted.")
     await member.mute(member + " has been muted.")
 
+@client.command()
+@commands.has_any_role('Commissar','Premier')
+async def unmute(ctx, member : discord.Member):
+    await ctx.send(member + " has been released.")
+    (member + " has been released.")
+    await member.unmute(member + "has been released.")
+
+
 
 @client.command()
-@commands.has_any_role('Dictator')
+@commands.has_any_role('Premier','Scientist')
 async def nuke(ctx, channel: discord.TextChannel):
     await ctx.send("Launching all Soviet Nukes...")
     await ctx.send("Judgement day of " + channel.name + " has arrived.")
@@ -105,9 +124,25 @@ async def nuke(ctx, channel: discord.TextChannel):
       time.sleep(1)
     await channel.delete()
 
+@client.command()
+@commands.has_any_role('Premier','Scientist')
+async def TB(ctx):
+    for x in range(5, 0, -1):
+      await ctx.send(x)      
+      time.sleep(1)
+    channel = ctx.guild.text_channels
+    for i in channel:
+      await ctx.send("Launching all Soviet Nukes...")
+      await ctx.send("Judgement day of " + i.name + " has arrived.")
+      await i.send("The Premier has given his speech that the server will be deleted - not reformed, but the land that we love will be erased off the surface of the earth.  Ten minutes will be given to say our goodbyes to our motherland.  May it never be forgotten and it's legacy a part of us.")
+      time.sleep(3)
+      await i.delete()
+    v = ctx.guild.voice_channels
+    for j in v:
+      await j.delete()
 
 @client.command()
-@commands.has_any_role('Commissar','Oligarch','Dictator')
+@commands.has_any_role('Commissar','Premier')
 async def lock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
     overwrite = channel.overwrites_for(ctx.guild.default_role)
@@ -123,7 +158,7 @@ async def lock_error(ctx, error):
 
 
 @client.command()
-@commands.has_any_role('Commissar','Oligarch','Dictator')
+@commands.has_any_role('Commissar','Premier')
 async def unlock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
     overwrite = channel.overwrites_for(ctx.guild.default_role)
