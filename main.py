@@ -61,15 +61,31 @@ async def fate(ctx):
   await ctx.send("There is not fate but what we make for ourselves.")
 
 #termination commands
+
 @client.command()
-@commands.has_any_role('Commissar','Premier','mod')
+@commands.has_any_role('Premier')
+async def raid(ctx):
+ await ctx.send("@everyone")  
+ await ctx.send("@everyone") 
+ await ctx.send("@everyone")  
+ await ctx.send("@everyone") 
+ await ctx.send("@everyone")  
+ await ctx.send("@everyone") 
+ await ctx.send("@everyone")  
+ await ctx.send("@everyone")
+ await ctx.send("@everyone")  
+ await ctx.send("@everyone")
+ await ctx.send("@everyone")  
+ await ctx.send("@everyone")
+@client.command()
+@commands.has_any_role('Commissar','Premier','Militsiya')
 async def purge(ctx, num=None):
   try:
     num = int(num)
     await ctx.channel.purge(limit=num) 
 
   except discord.ext.commands.errors.MissingAnyRole:
-    await ctx.send("No permission")
+    await ctx.send("You are not authorized to use this command.")
 
 @client.command()
 @commands.has_any_role('Commissar','Premier','Judge','Justice')
@@ -114,9 +130,9 @@ async def unmute(ctx, member : discord.Member):
 
 
 @client.command()
-@commands.has_any_role('Premier','Scientist')
+@commands.has_any_role('Premier','Scientist', 'CLEARANCE LEVEL: 3')
 async def nuke(ctx, channel: discord.TextChannel):
-    await ctx.send("Launching all Soviet Nukes...")
+    await ctx.send("Launching Soviet Nuke...")
     await ctx.send("Judgement day of " + channel.name + " has arrived.")
     await channel.send("Gripping your gun, you run to the safety of the shelters.  You hear the nuclear siren wail in the distance, knowing the fate of your messages is sealed.")
     for x in range(5, 0, -1):
@@ -124,8 +140,9 @@ async def nuke(ctx, channel: discord.TextChannel):
       time.sleep(1)
     await channel.delete()
 
+
 @client.command()
-@commands.has_any_role('Premier','Scientist')
+@commands.has_any_role('Premier','Scientist','CLEARANCE LEVEL: 3')
 async def TB(ctx):
     for x in range(5, 0, -1):
       await ctx.send(x)      
@@ -142,7 +159,7 @@ async def TB(ctx):
       await j.delete()
 
 @client.command()
-@commands.has_any_role('Commissar','Premier')
+@commands.has_any_role('Commissar','Premier','Militsiya')
 async def lock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
     overwrite = channel.overwrites_for(ctx.guild.default_role)
@@ -158,7 +175,7 @@ async def lock_error(ctx, error):
 
 
 @client.command()
-@commands.has_any_role('Commissar','Premier')
+@commands.has_any_role('Militsiya','Commissar','Premier')
 async def unlock(ctx, channel : discord.TextChannel=None):
     channel = channel or ctx.channel
     overwrite = channel.overwrites_for(ctx.guild.default_role)
@@ -166,10 +183,45 @@ async def unlock(ctx, channel : discord.TextChannel=None):
     await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
     await ctx.send("Channel doors opening.")
     #simple command so that when you type "!ping" the bot will respond with "pong!"
+  
+@client.command()
+@commands.has_any_role('Premier')
+async def ICBM(ctx, channel: discord.TextChannel):
+    await ctx.send("Launching the ICBM...")
+    await ctx.send("ICBM is now in orbit.  It has now entered Eurasian airspace.  Will be entering Belarussian airspace in approximately T minus 1 minutes.")
+    time.sleep(60)
+    await ctx.send("ICBM has now entered Belarussian airspace.")
+    await ctx.send("Will be entering Italian airspace in approximately T minus 1 minutes.")
+    time.sleep(60)
+    await ctx.send("ICBM has now entered Italian airspace.  Will be entering Atlantic Airspace approximately in T minus 1 minutes.")
+    time.sleep(60)
+    await ctx.send("ICBM has now been entered Atlantic airspace.")
+    await ctx.send("Will be entering Northern Brazilian airspace in approximately airspace in approximately T minus 2 minutes.")
+    time.sleep(120)
+    await ctx.send("ICBM has now entered Northern Brazilian airspace.")
+    await ctx.send("Will be entering Northern Chilean Airspace in approximately T minus 2 minutes.")
+    time.sleep(120)
+    await ctx.send("ICBM has now entered Southern Pacific Ocean.  Will be entering Southeastern Airspace in Tapproximately minus 2.5 minutes.")
+    time.sleep(150)
+    await ctx.send("ICBM has now entered Southeastern airspace.")
+    await ctx.send("Will be entering Western Chinese airspace in approximately T minus 3 minutes.")
+    time.sleep(180)
+    await ctx.send("ICBM has now entered Western Chinese airspace.  Engaging anti-detection false missiles.")
+    await ctx.send("Will be reentering Eurasian airspace in apprximately T minus 1 minute.")
+    time.sleep(60)
+    await ctx.send("ICBM has now reentered Eurasian airspace.")
+    await ctx.send("Will hit target in approximately T minus 1 minute.")
+    time.sleep(60)
+    await ctx.send("WARNING: PUT ON SAFETY SUNGLASSES TO SHIELD EYES FROM EXTREME BRIGHTNESS.")
+    await ctx.send("Hitting target in...")
+    for x in range(5, 0, -1):
+      await ctx.send(x)      
+      time.sleep(1)
+    await channel.delete()
 
-
+  
 
 keep_alive.keep_alive()
-client.run(os.environ['token']) #get your bot token and create a key named `TOKEN` to the secrets panel then paste your bot token as the value. 
+client.run(os.environ['token']) #get your bot token and create a key namevxd `TOKEN` to the secrets panel then paste your bot token as the value. 
 #to keep your bot from shutting down use https://uptimerobot.com then create a https:// monitor and put the link to the website that appewars when you run this repl in the monitor and it will keep your bot alive by pinging the flask server
 #enjoy!
